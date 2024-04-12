@@ -25,9 +25,8 @@ public class MyHibernate {
             rs = pstm.executeQuery();
 
             // (3) Generamos una instancia de T o null
-            T t = _generarObjeto(clazz, rs);
+            return _generarObjeto(clazz, rs);
 
-            return t;
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -77,7 +76,7 @@ public class MyHibernate {
     private static PreparedStatement _prepararSentencia(String sql, Integer id) {
 
         Connection con = DataAccess.getConnection();
-        PreparedStatement pstm = null;
+        PreparedStatement pstm;
         try {
             pstm = con.prepareStatement(sql);
             pstm.setInt(1, id);
@@ -92,10 +91,9 @@ public class MyHibernate {
 
         Field[] fields = clazz.getDeclaredFields();
 
-        Column annColumn = null;
+        Column annColumn;
         Table annTable = clazz.getAnnotation(Table.class);
-        Id annId = null;
-        ManyToOne annManyToOne = null;
+        Id annId;
 
         String from = "FROM " + annTable.name();
         String where = "WHERE";
@@ -134,9 +132,9 @@ public class MyHibernate {
 
         Field[] fields = clazz.getDeclaredFields();
 
-        Column annColumn = null;
+        Column annColumn;
         Table annTable = clazz.getAnnotation(Table.class);
-        Id annId = null;
+        Id annId;
 
         for (Field field : fields) {
             annColumn = field.getAnnotation(Column.class);
@@ -145,8 +143,8 @@ public class MyHibernate {
                 String sql = "SELECT " + annColumn.name() + " FROM " + annTable.name();
 
                 Connection con = DataAccess.getConnection();
-                PreparedStatement pstm = null;
-                ResultSet rs = null;
+                PreparedStatement pstm;
+                ResultSet rs;
                 try {
                     pstm = con.prepareStatement(sql);
                     rs = pstm.executeQuery();
@@ -209,8 +207,8 @@ public class MyHibernate {
         String sql = "SELECT " + pk + " FROM " + tableName + " WHERE " + dbField + " = " + value;
 
         Connection con = DataAccess.getConnection();
-        PreparedStatement pstm = null;
-        ResultSet rs = null;
+        PreparedStatement pstm;
+        ResultSet rs;
         try {
             pstm = con.prepareStatement(sql);
             rs = pstm.executeQuery();
