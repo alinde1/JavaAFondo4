@@ -167,11 +167,11 @@ public class MyHibernate {
         return null;
     }
 
-    public static <T> String findTableName(Class<T> clazz) {
+    public static <T> String getTableName(Class<T> clazz) {
         return clazz.getAnnotation(Table.class).name();
     }
 
-    public static <T> String findPk(Class<T> clazz) {
+    public static <T> String getPk(Class<T> clazz) {
 
         String pk = "";
 
@@ -184,7 +184,7 @@ public class MyHibernate {
         return pk;
     }
 
-    public static <T> String findDBField(Class<T> clazz, String fieldName) {
+    public static <T> String getColumnName(Class<T> clazz, String fieldName) {
 
         try {
             Field field = clazz.getDeclaredField(fieldName);
@@ -197,11 +197,11 @@ public class MyHibernate {
 
     public static <T> List<T> findBy(Class<T> clazz, String att, Object value) {
 
-        String tableName = findTableName(clazz);
+        String tableName = getTableName(clazz);
 
-        String pk = findPk(clazz);
+        String pk = getPk(clazz);
 
-        String dbField = findDBField(clazz, att);
+        String dbField = getColumnName(clazz, att);
 
         if (value instanceof String) {
             value = "'" + value + "'";
