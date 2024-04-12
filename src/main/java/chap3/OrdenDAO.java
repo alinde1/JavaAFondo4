@@ -1,15 +1,13 @@
 package chap3;
 
-import java.util.List;
-
 public interface OrdenDAO {
 
-    public Orden find(int idOrden);
+    Orden find(int idOrden);
 
-    public void insert(Orden orden);
+    void insert(Orden orden);
 
-    public void update(Orden orden);
+    void update(Orden orden);
 
-    public void delete(int idOrden);
+    void delete(int idOrden);
 
 }

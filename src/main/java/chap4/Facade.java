@@ -6,6 +6,6 @@ import chap3.Producto;
 import java.util.List;
 
 public interface Facade {
-    public List<Categoria> obtenerCategorias();
-    public List<Producto> obtenerProductos(int idCat);
+    List<Categoria> obtenerCategorias();
+    List<Producto> obtenerProductos(int idCat);
 }

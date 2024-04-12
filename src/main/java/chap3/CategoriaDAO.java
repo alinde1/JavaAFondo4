@@ -4,14 +4,14 @@ import java.util.List;
 
 public interface CategoriaDAO {
 
-    public Categoria find(int idCategoria);
+    Categoria find(int idCategoria);
 
-    public List<Categoria> findAll();
+    List<Categoria> findAll();
 
-    public void insert(Categoria categoria);
+    void insert(Categoria categoria);
 
-    public void update(Categoria categoria);
+    void update(Categoria categoria);
 
-    public void delete(int idCategoria);
+    void delete(int idCategoria);
 
 }

@@ -4,14 +4,14 @@ import java.util.List;
 
 public interface ProductoDAO {
 
-    public Producto find(int idProducto);
+    Producto find(int idProducto);
 
-    public List<Producto> findProductos(int idCat);
+    List<Producto> findProductos(int idCat);
 
-    public void insert(Producto producto);
+    void insert(Producto producto);
 
-    public void update(Producto producto);
+    void update(Producto producto);
 
-    public void delete(int idProducto);
+    void delete(int idProducto);
 
 }

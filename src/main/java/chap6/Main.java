@@ -1,6 +1,5 @@
 package chap6;
 
-import javax.swing.*;
 import java.util.List;
 
 public class Main {

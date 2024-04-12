@@ -2,12 +2,12 @@ package chap3;
 
 public interface EmpleadoDAO {
 
-    public Empleado find(int idEmpleado);
+    Empleado find(int idEmpleado);
 
-    public void insert(Empleado empleado);
+    void insert(Empleado empleado);
 
-    public void update(Empleado empleado);
+    void update(Empleado empleado);
 
-    public void delete(int idEmpleado);
+    void delete(int idEmpleado);
 
 }
