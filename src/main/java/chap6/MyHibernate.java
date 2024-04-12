@@ -201,7 +201,7 @@ public class MyHibernate {
         if (value instanceof String) {
             value = "'" + value + "'";
         }
-        String sql = "SELECT * FROM " + tableName + " WHERE " + dbField + " = " + value;
+        String sql = "SELECT " + pk + " FROM " + tableName + " WHERE " + dbField + " = " + value;
 
         Connection con = DataAccess.getConnection();
         PreparedStatement pstm = null;
