@@ -32,7 +32,12 @@ public class MyHibernate {
             e.printStackTrace();
             throw new RuntimeException(e);
         } finally {
-            // Cerramos el ResultSet y la PreparedStatement
+            try {
+                rs.close();
+                pstm.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
 
     }
