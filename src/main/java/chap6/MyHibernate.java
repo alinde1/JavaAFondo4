@@ -1,7 +1,6 @@
 package chap6;
 
 import chap3.DataAccess;
-import com.skillsoft.collections.ArraysAndCollections;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;
@@ -163,6 +162,10 @@ public class MyHibernate {
         return null;
     }
 
+    public static <T> String findTableName(Class<T> clazz) {
+        return clazz.getAnnotation(Table.class).name();
+    }
+
     public static <T> String findPk(Class<T> clazz) {
 
         String pk = "";
@@ -189,7 +192,7 @@ public class MyHibernate {
 
     public static <T> List<T> findBy(Class<T> clazz, String att, Object value) {
 
-        Table annTable = clazz.getAnnotation(Table.class);
+        String tableName = findTableName(clazz);
 
         String pk = findPk(clazz);
 
@@ -198,7 +201,7 @@ public class MyHibernate {
         if (value instanceof String) {
             value = "'" + value + "'";
         }
-        String sql = "SELECT * FROM " + annTable.name() + " WHERE " + dbField + " = " + value;
+        String sql = "SELECT * FROM " + tableName + " WHERE " + dbField + " = " + value;
 
         Connection con = DataAccess.getConnection();
         PreparedStatement pstm = null;
