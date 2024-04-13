@@ -46,6 +46,11 @@ public class Main {
         MyHibernate.insert(p2);
 
         System.out.println(MyHibernate.find(Producto.class, p2.getIdProducto()));
+
+        Categoria c2 = new Categoria();
+        c2.setDescripcion("Música");
+        MyHibernate.insert(c2);
+        System.out.println(MyHibernate.find(Categoria.class, c2.getIdCategoria()));
     }
 
 }

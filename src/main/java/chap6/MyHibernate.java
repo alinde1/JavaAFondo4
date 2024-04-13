@@ -136,7 +136,7 @@ public class MyHibernate {
 
     }
 
-    public static <T> String getId(Class<T> clazz) {
+    private static <T> String getId(Class<T> clazz) {
 
         Field[] fields = clazz.getDeclaredFields();
 
@@ -154,7 +154,7 @@ public class MyHibernate {
         return null;
     }
 
-    public static <T> Object getIdValue(T obj) {
+    private static <T> Object getIdValue(T obj) {
 
         Field[] fields = obj.getClass().getDeclaredFields();
 
@@ -181,7 +181,7 @@ public class MyHibernate {
         return null;
     }
 
-    public static <T> void setIdValue(T obj, int id) {
+    private static <T> void setIdValue(T obj, int id) {
 
         Field[] fields = obj.getClass().getDeclaredFields();
 
@@ -205,12 +205,11 @@ public class MyHibernate {
         }
     }
 
-
-    public static <T> String getTableName(Class<T> clazz) {
+    private static <T> String getTableName(Class<T> clazz) {
         return clazz.getAnnotation(Table.class).name();
     }
 
-    public static <T> String getPk(Class<T> clazz) {
+    private static <T> String getPk(Class<T> clazz) {
 
         String pk = "";
 
@@ -223,7 +222,7 @@ public class MyHibernate {
         return pk;
     }
 
-    public static <T> String getColumnName(Class<T> clazz, String fieldName) {
+    private static <T> String getColumnName(Class<T> clazz, String fieldName) {
 
         try {
             Field field = clazz.getDeclaredField(fieldName);
@@ -266,11 +265,11 @@ public class MyHibernate {
         }
     }
 
-    public static boolean isManyToOne(Field field) {
+    private static boolean isManyToOne(Field field) {
         return field.getAnnotation(ManyToOne.class) != null;
     }
 
-    public static <T> void insert(T obj) {
+    private static <T> Map<String, ArrayList<String>> getColumnsAndValues(T obj) {
 
         Column column;
         boolean access;
@@ -299,6 +298,17 @@ public class MyHibernate {
                 }
             }
         }
+
+        Map<String,ArrayList<String>> map = new HashMap();
+        map.put("columns", columnsList);
+        map.put("values", valuesList);
+        return map;
+    }
+    public static <T> void insert(T obj) {
+
+        Map<String, ArrayList<String>> map = getColumnsAndValues(obj);
+        ArrayList<String> columnsList = map.get("columns");
+        ArrayList<String> valuesList = map.get("values");
 
         String sql = "";
         sql += "INSERT INTO " + getTableName(obj.getClass());
