@@ -8,6 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class MyHibernate {
 
@@ -329,6 +331,39 @@ public class MyHibernate {
                     int id = rs.getInt(1);
                     setIdValue(obj, id);
                 }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public static <T> void update(T obj) {
+
+
+        Map<String, ArrayList<String>> map = getColumnsAndValues(obj);
+        ArrayList<String> columnsList = map.get("columns");
+        ArrayList<String> valuesList = map.get("values");
+
+        List<String> setString = IntStream
+                .range(0, Math.min(columnsList.size(), valuesList.size()))
+                .mapToObj(i -> columnsList.get(i) + " = " + valuesList.get(i)).collect(Collectors.toList());
+
+        String sql = "";
+        sql += "UPDATE " + getTableName(obj.getClass()) + " ";
+        sql += "SET " + String.join(",", setString) + " ";
+        sql += "WHERE " + getId(obj.getClass()) + " = " + getIdValue(obj);
+
+        Connection con = DataAccess.getConnection();
+        PreparedStatement pstm;
+        ResultSet rs;
+        try {
+            pstm = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            int rtdo = pstm.executeUpdate();
+
+            if (rtdo != 1) {
+                throw new RuntimeException("Error en update");
             }
 
         } catch (SQLException e) {
