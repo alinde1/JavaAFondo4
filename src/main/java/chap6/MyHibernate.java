@@ -318,6 +318,20 @@ public class MyHibernate {
         sql += "VALUES (" + String.join(",", valuesList) + ")";
         System.out.println(sql);
 
+        ResultSet rs = _update(sql);
+        try {
+            if (rs.next()) {
+                int id = rs.getInt(1);
+                setIdValue(obj, id);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private static ResultSet _update(String sql) {
+
         Connection con = DataAccess.getConnection();
         PreparedStatement pstm;
         ResultSet rs;
@@ -327,10 +341,9 @@ public class MyHibernate {
 
             if (rtdo == 1) {
                 rs = pstm.getGeneratedKeys();
-                if (rs.next()) {
-                    int id = rs.getInt(1);
-                    setIdValue(obj, id);
-                }
+                return rs;
+            } else {
+                throw new RuntimeException("Error en update");
             }
 
         } catch (SQLException e) {
@@ -355,20 +368,7 @@ public class MyHibernate {
         sql += "SET " + String.join(",", setString) + " ";
         sql += "WHERE " + getId(obj.getClass()) + " = " + getIdValue(obj);
 
-        Connection con = DataAccess.getConnection();
-        PreparedStatement pstm;
-        ResultSet rs;
-        try {
-            pstm = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-            int rtdo = pstm.executeUpdate();
-
-            if (rtdo != 1) {
-                throw new RuntimeException("Error en update");
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        _update(sql);
 
     }
 }

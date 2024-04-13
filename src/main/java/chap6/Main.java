@@ -54,7 +54,7 @@ public class Main {
 
 
         Producto p3 = MyHibernate.find(Producto.class, 1);
-        p3.setDescripcion("nueva descripción");
+        p3.setDescripcion("Vaio X");
         MyHibernate.update(p3);
         System.out.println(MyHibernate.find(Producto.class, p3.getIdProducto()));
     }
