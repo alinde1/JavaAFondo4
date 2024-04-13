@@ -57,6 +57,9 @@ public class Main {
         p3.setDescripcion("Vaio X");
         MyHibernate.update(p3);
         System.out.println(MyHibernate.find(Producto.class, p3.getIdProducto()));
+
+        // Eliminamos la fila cuyo id_producto=40
+        MyHibernate.delete(Producto.class, 40);
     }
 
 }

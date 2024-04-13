@@ -306,6 +306,7 @@ public class MyHibernate {
         map.put("values", valuesList);
         return map;
     }
+
     public static <T> void insert(T obj) {
 
         Map<String, ArrayList<String>> map = getColumnsAndValues(obj);
@@ -367,6 +368,16 @@ public class MyHibernate {
         sql += "UPDATE " + getTableName(obj.getClass()) + " ";
         sql += "SET " + String.join(",", setString) + " ";
         sql += "WHERE " + getId(obj.getClass()) + " = " + getIdValue(obj);
+
+        _update(sql);
+
+    }
+
+    public static <T> void delete(Class<T> clazz, int id) {
+
+        String sql = "";
+        sql += "DELETE FROM " + getTableName(clazz) + " ";
+        sql += "WHERE " + getId(clazz) + " = " + Integer.toString(id);
 
         _update(sql);
 
