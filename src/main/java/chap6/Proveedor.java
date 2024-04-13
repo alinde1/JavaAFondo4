@@ -16,6 +16,18 @@ public class Proveedor {
     @Column(name="direccion")
     private String direccion;
 
+    public Proveedor() {
+        super();
+    }
+
+    public Proveedor(Integer id) {
+        Proveedor proveedor = MyHibernate.find(this.getClass(), id);
+        this.idProveedor = proveedor.idProveedor;
+        this.contacto = proveedor.contacto;
+        this.direccion = proveedor.direccion;
+        this.empresa = proveedor.empresa;
+    }
+
     public int getIdProveedor() {
         return idProveedor;
     }

@@ -9,6 +9,16 @@ public class Categoria {
     @Column(name="descripcion")
     private String descripcion;
 
+    public Categoria() {
+        super();
+    }
+
+    public Categoria(Integer id) {
+        Categoria categoria = MyHibernate.find(this.getClass(), id);
+        this.idCategoria = categoria.idCategoria;
+        this.descripcion = categoria.descripcion;
+    }
+
     public void setIdCategoria(Integer idCategoria) {
         this.idCategoria = idCategoria;
     }
