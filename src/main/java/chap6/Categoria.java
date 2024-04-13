@@ -1,12 +1,12 @@
 package chap6;
 
-@Table(name="categoria")
+@Table(name = "categoria")
 public class Categoria {
     @Id
-    @Column(name="id_categoria")
+    @Column(name = "id_categoria")
     private Integer idCategoria;
 
-    @Column(name="descripcion")
+    @Column(name = "descripcion")
     private String descripcion;
 
     public Categoria() {

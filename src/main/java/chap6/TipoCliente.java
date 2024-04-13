@@ -1,13 +1,13 @@
 package chap6;
 
-@Table(name="tipo_cliente")
+@Table(name = "tipo_cliente")
 public class TipoCliente {
 
     @Id
-    @Column(name="id_tipo_cliente")
+    @Column(name = "id_tipo_cliente")
     private int idTipoCliente;
 
-    @Column(name="descripcion")
+    @Column(name = "descripcion")
     private String descripcion;
 
     public int getIdTipoCliente() {

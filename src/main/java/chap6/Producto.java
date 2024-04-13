@@ -1,32 +1,32 @@
 package chap6;
 
-@Table(name="producto")
+@Table(name = "producto")
 public class Producto {
     @Id
-    @Column(name="id_producto")
+    @Column(name = "id_producto")
     private Integer idProducto;
 
-    @Column(name="descripcion")
+    @Column(name = "descripcion")
     private String descripcion;
 
-    @Column(name="precio_unitario")
+    @Column(name = "precio_unitario")
     private Double precioUnitario;
 
     @ManyToOne
-    @Column(name="id_categoria")
+    @Column(name = "id_categoria")
     private Categoria categoria;
 
     @ManyToOne
-    @Column(name="id_proveedor")
+    @Column(name = "id_proveedor")
     private Proveedor proveedor;
 
-    @Column(name="unidades_stock")
+    @Column(name = "unidades_stock")
     private Integer unidadesStock;
 
-    @Column(name="unidades_reposicion")
+    @Column(name = "unidades_reposicion")
     private int unidadesReposicion;
 
-    @Column(name="flg_discontinuo")
+    @Column(name = "flg_discontinuo")
     private int flgDiscontinuo;
 
     public Integer getUnidadesStock() {

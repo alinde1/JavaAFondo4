@@ -1,19 +1,19 @@
 package chap6;
 
-@Table(name="proveedor")
+@Table(name = "proveedor")
 public class Proveedor {
 
     @Id
-    @Column(name="id_proveedor")
+    @Column(name = "id_proveedor")
     private int idProveedor;
 
-    @Column(name="empresa")
+    @Column(name = "empresa")
     private String empresa;
 
-    @Column(name="contacto")
+    @Column(name = "contacto")
     private String contacto;
 
-    @Column(name="direccion")
+    @Column(name = "direccion")
     private String direccion;
 
     public Proveedor() {
