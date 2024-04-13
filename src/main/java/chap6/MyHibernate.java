@@ -132,33 +132,43 @@ public class MyHibernate {
 
         Field[] fields = clazz.getDeclaredFields();
 
+        String tableName = getTableName(clazz);
+        String id = getId(clazz);
+
+        String sql = "SELECT " + id + " FROM " + tableName;
+
+        Connection con = DataAccess.getConnection();
+        PreparedStatement pstm;
+        ResultSet rs;
+        try {
+            pstm = con.prepareStatement(sql);
+            rs = pstm.executeQuery();
+
+            ArrayList<Integer> idList = new ArrayList<>();
+            while (rs.next()) {
+                idList.add(rs.getInt(id));
+            }
+
+            return idList;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public static <T> String getId(Class<T> clazz) {
+
+        Field[] fields = clazz.getDeclaredFields();
+
         Column annColumn;
-        Table annTable = clazz.getAnnotation(Table.class);
         Id annId;
 
         for (Field field : fields) {
             annColumn = field.getAnnotation(Column.class);
             annId = field.getAnnotation(Id.class);
             if (annColumn != null && annId != null) {
-                String sql = "SELECT " + annColumn.name() + " FROM " + annTable.name();
-
-                Connection con = DataAccess.getConnection();
-                PreparedStatement pstm;
-                ResultSet rs;
-                try {
-                    pstm = con.prepareStatement(sql);
-                    rs = pstm.executeQuery();
-
-                    ArrayList<Integer> idList = new ArrayList<>();
-                    while (rs.next()) {
-                        idList.add(rs.getInt(annColumn.name()));
-                    }
-
-                    return idList;
-
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
+                return annColumn.name();
             }
         }
 
