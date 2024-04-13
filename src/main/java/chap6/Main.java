@@ -33,6 +33,19 @@ public class Main {
         System.out.println(lstProd);
 
         System.out.println(MyHibernate.findAll(Proveedor.class));
+
+        Producto p2 = new Producto();
+        p2.setDescripcion("nuevo producto");
+        p2.setProveedor(new Proveedor(1));
+        p2.setCategoria(new Categoria(2));
+        p2.setPrecioUnitario(123D);
+        p2.setUnidadesStock(40);
+        p2.setUnidadesReposicion(0);
+        p2.setFlgDiscontinuo(0);
+
+        MyHibernate.insert(p2);
+
+        System.out.println(MyHibernate.find(Producto.class, p2.getIdProducto()));
     }
 
 }
