@@ -51,6 +51,12 @@ public class Main {
         c2.setDescripcion("Música");
         MyHibernate.insert(c2);
         System.out.println(MyHibernate.find(Categoria.class, c2.getIdCategoria()));
+
+
+        Producto p3 = MyHibernate.find(Producto.class, 1);
+        p3.setDescripcion("nueva descripción");
+        MyHibernate.update(p3);
+        System.out.println(MyHibernate.find(Producto.class, p3.getIdProducto()));
     }
 
 }
