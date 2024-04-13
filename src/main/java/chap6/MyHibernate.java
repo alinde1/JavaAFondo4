@@ -1,6 +1,7 @@
 package chap6;
 
 import chap3.DataAccess;
+import com.skillsoft.collections.Book;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;
@@ -158,6 +159,58 @@ public class MyHibernate {
         return null;
     }
 
+    public static <T> Object getIdValue(T obj) {
+
+        Field[] fields = obj.getClass().getDeclaredFields();
+
+        Column annColumn;
+        Id annId;
+
+        Boolean access;
+        for (Field field : fields) {
+            annColumn = field.getAnnotation(Column.class);
+            annId = field.getAnnotation(Id.class);
+            if (annColumn != null && annId != null) {
+                try {
+                    access = field.isAccessible();
+                    field.setAccessible(true);
+                    Object value = field.get(obj);
+                    field.setAccessible(access);
+                    return value;
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public static <T> void setIdValue(T obj, int id) {
+
+        Field[] fields = obj.getClass().getDeclaredFields();
+
+        Column annColumn;
+        Id annId;
+
+        Boolean access;
+        for (Field field : fields) {
+            annColumn = field.getAnnotation(Column.class);
+            annId = field.getAnnotation(Id.class);
+            if (annColumn != null && annId != null) {
+                try {
+                    access = field.isAccessible();
+                    field.setAccessible(true);
+                    field.set(obj, id);
+                    field.setAccessible(access);
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+
+
     public static <T> String getTableName(Class<T> clazz) {
         return clazz.getAnnotation(Table.class).name();
     }
@@ -216,5 +269,66 @@ public class MyHibernate {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static boolean isManyToOne(Field field) {
+        return field.getAnnotation(ManyToOne.class) != null;
+    }
+
+    public static <T> void insert(T obj) {
+
+        Column column;
+        Boolean access;
+        String columnName;
+        Object value;
+
+        ArrayList<String> columnsList = new ArrayList<>();
+        ArrayList<String> valuesList = new ArrayList<>();
+
+        for (Field f : obj.getClass().getDeclaredFields()) {
+            column = f.getAnnotation(Column.class);
+            if ( column != null ) {
+                try {
+                    columnName = column.name();
+                    access = f.isAccessible();
+                    f.setAccessible(true);
+                    value = isManyToOne(f) ? getIdValue(f.get(obj)) : f.get(obj);
+                    if (value instanceof String) value = "'" + value + "'";
+                    if (value != null) {
+                        columnsList.add(columnName);
+                        valuesList.add(String.valueOf(value));
+                    }
+                    f.setAccessible(access);
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+        String sql = "";
+        sql += "INSERT INTO " + getTableName(obj.getClass());
+        sql += " (" + String.join(",", columnsList) + ") ";
+        sql += "VALUES (" + String.join(",", valuesList) + ")";
+        System.out.println(sql);
+
+        Connection con = DataAccess.getConnection();
+        PreparedStatement pstm;
+        ResultSet rs;
+        try {
+            pstm = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            int rtdo = pstm.executeUpdate();
+
+            if (rtdo == 1) {
+                rs = pstm.getGeneratedKeys();
+                if (rs.next()) {
+                    int id = rs.getInt(1);
+                    setIdValue(obj, id);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }
