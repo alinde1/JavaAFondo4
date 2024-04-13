@@ -1,7 +1,6 @@
 package chap6;
 
 import chap3.DataAccess;
-import com.skillsoft.collections.Book;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;
@@ -90,8 +89,6 @@ public class MyHibernate {
 
     private static <T> String _generarCodigoSQL(Class<T> clazz) {
 
-        Field[] fields = clazz.getDeclaredFields();
-
         String select = "SELECT *";
         String from = "FROM " + getTableName(clazz);
         String where = "WHERE " + getId(clazz) + " = ?";
@@ -113,8 +110,6 @@ public class MyHibernate {
     }
 
     private static <T> ArrayList<Integer> _getAllIds(Class<T> clazz) {
-
-        Field[] fields = clazz.getDeclaredFields();
 
         String tableName = getTableName(clazz);
         String id = getId(clazz);
@@ -166,7 +161,7 @@ public class MyHibernate {
         Column annColumn;
         Id annId;
 
-        Boolean access;
+        boolean access;
         for (Field field : fields) {
             annColumn = field.getAnnotation(Column.class);
             annId = field.getAnnotation(Id.class);
@@ -193,7 +188,7 @@ public class MyHibernate {
         Column annColumn;
         Id annId;
 
-        Boolean access;
+        boolean access;
         for (Field field : fields) {
             annColumn = field.getAnnotation(Column.class);
             annId = field.getAnnotation(Id.class);
@@ -278,7 +273,7 @@ public class MyHibernate {
     public static <T> void insert(T obj) {
 
         Column column;
-        Boolean access;
+        boolean access;
         String columnName;
         Object value;
 
