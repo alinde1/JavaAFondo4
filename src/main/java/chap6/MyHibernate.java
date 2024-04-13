@@ -91,26 +91,9 @@ public class MyHibernate {
 
         Field[] fields = clazz.getDeclaredFields();
 
-        Column annColumn;
-        Table annTable = clazz.getAnnotation(Table.class);
-        Id annId;
-
-        String from = "FROM " + annTable.name();
-        String where = "WHERE";
-
-        ArrayList<String> fieldList = new ArrayList<>();
-        for (Field field : fields) {
-            annColumn = field.getAnnotation(Column.class);
-            if (annColumn != null) {
-                fieldList.add(annColumn.name());
-            }
-
-            annId = field.getAnnotation(Id.class);
-            if (annId != null) {
-                where += " " + annColumn.name() + " = ?";
-            }
-        }
-        String select = "SELECT " + String.join(",", fieldList);
+        String select = "SELECT *";
+        String from = "FROM " + getTableName(clazz);
+        String where = "WHERE " + getId(clazz) + " = ?";
 
         return select + " " + from + " " + where;
     }
