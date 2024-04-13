@@ -58,8 +58,11 @@ public class Main {
         MyHibernate.update(p3);
         System.out.println(MyHibernate.find(Producto.class, p3.getIdProducto()));
 
-        // Eliminamos la fila cuyo id_producto=40
-        MyHibernate.delete(Producto.class, 40);
+        // Eliminamos la fila cuyo id_producto=41
+        Producto p4 = MyHibernate.find(Producto.class, 41);
+        if (p4 != null) {
+            MyHibernate.delete(Producto.class, 41);
+        }
     }
 
 }
