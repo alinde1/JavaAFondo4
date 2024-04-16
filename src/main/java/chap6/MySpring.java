@@ -10,7 +10,7 @@ import static org.reflections.scanners.Scanners.*;
 public class MySpring {
     
     public static <T> T getObject(Class<T> clazz) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-        T t = null;
+        T t;
         
         if (clazz.isInterface()) {
             clazz = _buscarImplementacion(clazz);
@@ -35,7 +35,7 @@ public class MySpring {
         return t;
     }
 
-    private static <T> Class<T> _buscarImplementacion(Class<T> clazz) throws InstantiationException, IllegalAccessException {
+    private static <T> Class<T> _buscarImplementacion(Class<T> clazz) {
 
         Reflections reflections = new Reflections("chap6");
 
