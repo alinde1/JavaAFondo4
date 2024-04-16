@@ -80,5 +80,5 @@ docker/db-data/
 docker/pgadmin-data/
 /target/
 /src/main/java/Codewars/
-/src/main/java/com/skillsoft/
+/src/main/java/com/
 /.idea/
