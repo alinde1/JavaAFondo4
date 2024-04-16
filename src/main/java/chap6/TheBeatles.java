@@ -16,11 +16,11 @@ public class TheBeatles implements Banda{
 
     public String toString() {
         String ret = "";
-        ret += "The Beatles ( \n";
+        ret += "The Beatles { \n";
         ret += "       " + primeraGuitarra + "\n";
-        ret += "       " + segundaGuitarra + "\n";
-        ret += "       " + bajista + "\n";
-        ret += "       " + baterista + "\n";
+        ret += "      ," + segundaGuitarra + "\n";
+        ret += "      ," + bajista + "\n";
+        ret += "      ," + baterista + " }\n";
         return ret;
     }
 }
