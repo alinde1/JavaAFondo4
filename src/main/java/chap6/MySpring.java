@@ -35,7 +35,7 @@ public class MySpring {
         return t;
     }
 
-    private static <T> Class<T> _buscarImplementacion(Class<T> clazz) {
+    private static <T> Class<T> _buscarImplementacion(Class<T> clazz) throws ClassNotFoundException {
 
         Reflections reflections = new Reflections("chap6");
 
@@ -48,7 +48,7 @@ public class MySpring {
             }
         }
 
-        return null;
+        return (Class<T>) Class.forName("java.lang.Object");
     }
 
 }
