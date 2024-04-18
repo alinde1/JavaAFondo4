@@ -1,6 +1,7 @@
 package chap7;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.GregorianCalendar;
 
 public class TestPersona {
@@ -44,7 +45,7 @@ public class TestPersona {
         // Readers y Writers
 
         FileInputStream fis2 = new FileInputStream("chino.txt");
-        Reader r = new InputStreamReader(fis2, "UTF-8");
+        Reader r = new InputStreamReader(fis2, StandardCharsets.UTF_8);
 
         int c;
         while( (c=r.read()) >= 0) {
